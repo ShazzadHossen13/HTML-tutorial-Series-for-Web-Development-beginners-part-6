@@ -1,0 +1,307 @@
+Main Menu
+CSE 4288
+8A
+Stream
+Classwork
+People
+CSE 4288
+8A
+View class information
+Upcoming
+Woohoo, no work due soon!
+
+Announce something to your class
+
+Announcement: "Class lecture"
+Nazmin Islam
+Created 11:15 AM11:15 AM
+Class lecture
+
+CSE4288 _ Computer Graphics Lab - 1.pptx
+PowerPoint
+
+Intro.html
+HTML
+
+
+Post by Md. Meher Ullah
+Md. Meher Ullah
+Created 10:53 AM10:53 AM
+21 January 2022
+
+4288_21 January 2022.mp4
+Video
+
+
+Announcement: "Nazmin Islam is inviting you to a…"
+Nazmin Islam
+Created 10:04 AM10:04 AM
+Nazmin Islam is inviting you to a scheduled Zoom meeting.
+
+Topic: Nazmin Islam's Personal Meeting Room
+
+Join Zoom Meeting
+https://us04web.zoom.us/j/9296649678?pwd=cWtQVjl0NENXbTNDYzFGSGRQUk9odz09
+
+Meeting ID: 929 664 9678
+Passcode: 3zjYj9
+
+SHAMIM AHMAD1:12 PM
+21190301224
+
+
+Announcement: "Visual Studio Application"
+Nazmin Islam
+Created Jan 14Jan 14
+Visual Studio Application
+
+VSCodeSetup-ia32-1.62.2.exe
+Unknown File
+1 class comment
+
+soyeb Hossain11:19 AM
+21190301236
+
+
+Announcement: "Nazmin Islam is inviting you to a…"
+Nazmin Islam
+Created Jan 14Jan 14
+Nazmin Islam is inviting you to a scheduled Zoom meeting.
+
+Topic: Nazmin Islam's Personal Meeting Room
+
+Join Zoom Meeting
+https://us04web.zoom.us/j/9296649678?pwd=cWtQVjl0NENXbTNDYzFGSGRQUk9odz09
+
+Meeting ID: 929 664 9678
+Passcode: 3zjYj9
+
+Sumon SarkerJan 17
+21190301209
+
+<!-- saved from url=(0065)http://math.hws.edu/graphicsbook/source/webgl/simple-texture.html -->
+
+<!-- HTML starts -->
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>LAB-1: Intro</title>
+<canvas id="webglcanvas" width="500" height="500"></canvas>
+
+<!-- In a similar manner to the way artists use paint canvases, the <canvas> tag defines a
+drawing area on a web page. Then, rather than using brush and paints, you can use
+JavaScript to draw anything you want in the area. You can draw points, lines, rectangles,
+circles, and so on by using JavaScript methods provided for <canvas>. -->
+
+<!-- JavaScript starts     -->
+<script>
+
+// WebGL relies on a new type of drawing mechanism
+// called a shader, which offers a flexible and powerful mechanism for drawing 2D and 3D
+// objects and must be used by all WebGL applications
+// shader programs are necessary when you want to draw something on the screen in WebGL.
+
+// WebGL needs the following two types of shaders, which you can see at line 30 and line 51:
+// • Vertex shader: Vertex shaders are programs that describe the traits (position,
+// and so on) of a vertex. The vertex is a point in 2D/3D space, such as the corner or
+// intersection of a 2D/3D shape.
+// • Fragment shader: A program that deals with per-fragment processing such as coloring. The fragment is a WebGL term that you can
+// consider as a kind of pixel (picture element).
+
+var vertexShaderSource =
+
+       `attribute vec3 a_coords;
+        void main() {
+            gl_Position = vec4(a_coords, 1.0);
+            gl_PointSize = 10.0;
+        }`;
+
+// Line 34 assigns the position of the point to the variable gl_Position, and line 35 assigns its
+// size to the variable gl_PointSize. These two variables are built-in variables available only
+// in a vertex shader and have a special meaning: gl_Position specifies a position of a vertex
+// (in this case, the position of the point), and gl_PointSize specifies the size of the point
+// The type of the variable gl_Position, the built-in variable for specifying the position of
+// a point, is vec4; vec4 is a vector made up of three floats. However, you only have three
+// floats (0.0, 0.0, 0.0) representing X, Y, and Z. So you need to convert these to a vec4
+// somehow. Fortunately, there is a built-in function, vec4(), that will do this for you and
+// return a value of type vec4 –, which is just what you need!       
+// Note that the value that is assigned to gl_Position has 1.0 added as a fourth component.
+// This four-component coordinate is called a homogeneous coordinate 
+// and is often used in 3D graphics for processing three-dimensional information efficiently. 
+
+var fragmentShaderSource =
+
+       `void main() {
+            gl_FragColor = vec4(178.0/255.0, 64.0/255.0, 64.0/255.0, 1.0);
+        }`;
+
+// The job of the fragment shader is to set the color of the point as its per-fragment operation, which
+// is carried out at line 54. gl_FragColor is a built-in variable only available in a fragment
+// shader; it controls the color of a fragment, in RGBA format
+// Just like the position in the vertex shader, the color value is a vec4 data type
+// consisting of four floating point numbers representing the RGBA values. In this sample
+// program, a red point will be displayed because you assign (1.0, 0.0, 0.0, 1.0) to the
+// variable.
+
+var gl;
+var a_coords_location;
+var a_coords_buffer;
+
+function draw() {
+
+    gl.clearColor(0.0, 0.0, 0.0, 1);
+// With WebGL you need to set the color before actually clearing the
+// drawing area. Line 71 uses gl.clearColor() to set the color in RGBA format.
+// gl.clearColor(red, green, blue, alpha):
+// Parameters 
+// => red    Specifies the red value (from 0.0 to 1.0).
+// => green  Specifies the green value (from 0.0 to 1.0).
+// => blue   Specifies the blue value (from 0.0 to 1.0).
+// => alpha  Specifies an alpha (transparency) value (from 0.0 to 1.0).
+//           0.0 means transparent and 1.0 means opaque.
+// The sample program calls gl.clearColor(0.0, 0.0, 0.0, 1.0) at line 71, so black is specified
+// as the clear color.
+    
+    gl.clear(gl.COLOR_BUFFER_BIT);
+// Finally, you can use gl.clear() to clear the drawing area with the specified clear color at line 84
+// gl.clear(buffer):
+// Clear the specified buffer to preset values. In the case of a color buffer, the value (color)
+// specified by gl.clearColor() is used.
+
+   var coords = new Float32Array( [-0.5, 0.5, 0.0,// vertex 0
+                                   -.8, .2, 0,// vertex 1
+                                   -.2, .2, 0,// vertex 2
+                                   .5, .5, 0,// vertex 3
+                                   .2, .2, 0,// vertex 4
+                                   .7, .2, 0] ); // vertex 5
+
+    //var coords = new Float32Array( [0.9, 0.9, 0.0,// vertex 0
+    //                               0.7, 0.6, 0.0]);// vertex 1
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, a_coords_buffer);
+// (gl.bindBuffer()) => Bind the buffer object(a_coords_buffer) to a target(here gl.ARRAY_BUFFER)
+// gl.ARRAY_BUFFER Specifies that the buffer object contains vertex data.
+// In line 100 in this section, gl.ARRAY_BUFFER is specified as the target to store
+// vertex data (positions) in the buffer object.
+    gl.bufferData(gl.ARRAY_BUFFER, coords, gl.STATIC_DRAW);
+// (gl.bufferData()) => Write data(coords) into the buffer object
+    gl.vertexAttribPointer(a_coords_location, 3, gl.FLOAT, false, 0, 0);
+// gl.vertexAttribPointer(location, size, type, normalized, stride,offset):
+// Assign the buffer object bound to gl.ARRAY_BUFFER to the attribute variable specified by location.
+// Parameters: 
+// location -> Specifies the storage location of an attribute variable.
+// size     -> Specifies the number of components per vertex(here no of coordinates is 3 (x,y,z) so size=3) in the buffer object
+// type     -> Specifies the data format using one of the following:
+// gl.FLOAT floating point number for Float32Array
+// normalized -> Either true or false to indicate whether nonfloating data(int) should be normalized to [0, 1] or [–1, 1]
+    gl.enableVertexAttribArray(a_coords_location);
+// (gl.enableVertexAttribArray(location)) => Enable assignment
+// To make it possible to access a buffer object in a vertex shader, we need to enable the
+// assignment of the buffer object to an attribute variable by using gl.enableVertexAttribArray() as shown in line 116
+
+// Once you set up the shaders, the remaining task is to draw the shape, or in our case, a
+// point. As before, you need to clear the drawing area. Once the drawing area is cleared, you can draw the point using 
+// gl.drawArrays(), as in line 125:
+    gl.drawArrays(gl.TRIANGLES, 0, 6);
+  //gl.drawArrays(gl.POINTS,0,2);
+
+// gl.drawArrays(mode, first, count):
+// Execute a vertex shader to draw shapes specified by the mode parameter.
+// Parameters: mode ->  Specifies the type of shape to be drawn. The following symbolic
+//                      constants are accepted: gl.POINTS, gl.LINES, gl.LINE_STRIP,
+//                      gl.LINE_LOOP, gl.TRIANGLES, gl.TRIANGLE_STRIP, and gl.
+//                      TRIANGLE_FAN.
+//             first -> Specifies which vertex to start drawing from (integer).
+//             count -> Specifies the number of vertices to be used (integer).
+
+}
+
+function createProgram(gl, vertexShaderSource, fragmentShaderSource) {
+
+// Shader object: A shader object manages a vertex shader or a fragment shader. One
+// shader object is created per shader. Here vsh and fsh are shader objects
+
+  var vsh = gl.createShader( gl.VERTEX_SHADER );
+  //Create shader objects (gl.createShader()).
+  gl.shaderSource( vsh, vertexShaderSource );
+// Store the shader programs in the shader objects (g.shaderSource()).
+  gl.compileShader( vsh );
+// Compile the vertex shader object (gl.compileShader()).
+
+  var fsh = gl.createShader( gl.FRAGMENT_SHADER );
+  //Create shader objects (gl.createShader()).
+  gl.shaderSource( fsh, fragmentShaderSource );
+// Store the shader programs in the shader objects (gl.shaderSource()).
+  gl.compileShader( fsh );
+// Compile the fragment shader object (gl.compileShader()).
+
+  var prog = gl.createProgram();
+// Program object: A program object is a container that manages the shader objects. A vertex
+// shader object and a fragment shader object (two shader objects in total)
+// must be attached to a program object in WebGL.
+  gl.attachShader( prog, vsh );
+  gl.attachShader( prog, fsh );
+// Attach the shader objects to the program object (gl.attachShader()).
+  gl.linkProgram( prog );
+//   Link the program object (gl.linkProgram())
+
+  return prog;
+}
+
+
+function initGL() {
+    var prog = createProgram( gl, vertexShaderSource, fragmentShaderSource );
+
+    gl.useProgram(prog);
+// Tell the WebGL system the program object to be used (gl.useProgram()).
+
+    a_coords_location = gl.getAttribLocation(prog, "a_coords");
+// When the vertex shader is passed to the WebGL system, the system parses the shader, 
+// recognizes it has an attribute variable, and then prepares the location of its 
+// attribute variable so that it can store data values when required. When you want to 
+// pass data to a_coords_location in the vertex shader, you need to ask the WebGL system to 
+// give you the location it has prepared, which can be done using gl.getAttribLocation()    
+// gl.getAttribLocation(program, name):
+// Retrieve the storage location of the attribute variable specified by the name parameter.
+// Parameters: program -> Specifies the program object that holds a vertex shader and a fragment shader.
+//             name    -> Specifies the name of the attribute variable whose location is to be retrieved.
+    a_coords_buffer = gl.createBuffer();
+// A buffer object is a mechanism provided by the WebGL system that
+// provides a memory area allocated in the system that holds the vertices you
+// want to draw. By creating a buffer object and then writing the vertices to the object, you
+// can pass multiple vertices(line 97) to a vertex shader through one of its attribute variables. 
+}
+
+
+function init() {
+    var canvas = document.getElementById("webglcanvas");
+// To draw something on a <canvas>, you must first retrieve the <canvas> element from the
+// HTML file in the JavaScript program. You can get the element by using the method document.getElementById(), as shown at line 196. 
+// This method has a single parameter, which is the string specified in the attribute id in the <canvas> tag in our HTML file. In this case,
+// the string is 'webglcanvas' and it was defined back in at line 8
+    
+    gl = canvas.getContext("webgl");
+// Because the <canvas> is designed to be flexible and supports both 2D and 3D, it does not
+// provide drawing methods directly and instead provides a mechanism called a context,
+// which supports the actual drawing features. Line 202 gets that context
+// The method canvas.getContext() has a parameter that specifies which type of drawing
+// features you want to use. In this example you want to draw a triangle using webgl, so you must
+// specify webgl.
+// WebGL uses the rendering context returned by getContext() to
+// draw on the <canvas>. However, now the context is for 3D rather than 2D, so 3D (that is,
+// WebGL) methods are available. The program stores the context in the variable gl at line
+// 202. You can use any name for the variable.
+// Once you have the rendering context for WebGL, the next step is to use the context to set
+// the color for clearing the drawing area specified by the <canvas>.
+
+    initGL();
+    draw();
+}
+
+init();
+
+</script>
+
+</html>
+Intro.html
+Displaying Intro.html.
